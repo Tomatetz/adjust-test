@@ -10,41 +10,42 @@ export default class Adjuster {
     this.windowIsBlur = false;
     window.addEventListener("focus", () => {
       this.windowIsBlur = false;
-      this.secondsStack.length && this.doRequest(this.secondsStack[0]);
+      this.secondsStack.length && this.fetchData(this.secondsStack[0]);
     });
     window.addEventListener("blur", () => {
       this.windowIsBlur = true;
     });
   }
   updateSecondsStack = () => {
-    const { doRequest, secondsStack } = this;
+    const { fetchData, secondsStack } = this;
     const seconds: number = new Date().getSeconds();
     if (!~secondsStack.indexOf(seconds)) {
       secondsStack.push(seconds);
-      doRequest(seconds);
-    } else console.log(`Repeated seconds alert!(${seconds})`);
+      fetchData(seconds);
+    } else this.updateOutput(`Repeated seconds alert!(${seconds})}`);
   };
-  doRequest = async (seconds: number) => {
-    console.log(this.requestInAction, this.windowIsBlur);
+  fetchData = async (seconds: number) => {
     if (!this.requestInAction && !this.windowIsBlur) {
       this.requestInAction = true;
       let result = await this.makeRequest(JSON.stringify({ seconds }));
+      this.updateOutput(`id: ${result.id}, seconds: ${seconds}`);
       this.requestInAction = false;
       this.secondsStack.shift();
-      const { id } = result;
-      if (this.secondsStack.length) this.doRequest(this.secondsStack[0]);
-      console.log(`id: ${id}, seconds: ${seconds}`);
+      if (this.secondsStack.length) this.fetchData(this.secondsStack[0]);
     }
   };
   makeRequest(request: string) {
     return new Promise<HTTPResponse>((resolve) => {
       let xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://reqres.in/api/users?delay=5");
-      //   xhr.open("POST", "https://jsonplaceholder.typicode.com/posts");
+      // xhr.open("POST", "https://reqres.in/api/users?delay=4");
+      xhr.open("POST", "https://jsonplaceholder.typicode.com/posts");
       xhr.onload = () => {
         if (xhr.status === 201) resolve(JSON.parse(xhr.response));
       };
       xhr.send(request);
     });
+  }
+  updateOutput(value) {
+    document.getElementById("output").innerHTML += `<li>${value}</li>`;
   }
 }
