@@ -7,7 +7,7 @@
 First, install dependencies:
 
 ```bash
-yarn add
+yarn
 ```
 
 Run the development server:
