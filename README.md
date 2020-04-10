@@ -4,7 +4,7 @@
 
 ## Getting Started
 
-First, install Node.js dependencies:
+First, install dependencies:
 
 ```bash
 yarn add
