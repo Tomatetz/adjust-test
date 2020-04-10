@@ -37,3 +37,20 @@ body {
 #output > .response {
   color: #466f4d;
 }
+.button-clear {
+  padding: 5px 10px;
+  border-radius: 2px;
+  border: 1px solid #565656;
+  cursor: pointer;
+}
+.button-clear:hover {
+  color: #fff;
+  background-color: #333;
+}
+.button-clear:focus {
+  outline: none;
+}
+.button-clear:active {
+  background-color: #dfdfdf;
+  color: #333;
+}
