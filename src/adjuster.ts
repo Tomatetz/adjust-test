@@ -51,5 +51,5 @@ class Adjuster {
   }
 }
 const adjaster = new Adjuster();
-Object.freeze(adjaster);
+
 export default adjaster;
