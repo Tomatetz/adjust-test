@@ -22,7 +22,7 @@ export default class Adjuster {
     if (!~secondsStack.indexOf(seconds)) {
       secondsStack.push(seconds);
       fetchData(seconds);
-    } else this.updateOutput(`Repeated seconds alert!(${seconds})}`);
+    } else this.updateOutput(`Repeated seconds alert (${seconds})`);
   };
   fetchData = async (seconds: number) => {
     if (!this.requestInAction && !this.windowIsBlur) {

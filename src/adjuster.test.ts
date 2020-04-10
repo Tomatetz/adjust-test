@@ -13,7 +13,7 @@ test("http response", async () => {
   expect(response).toEqual({ id: expect.any(Number) });
 });
 test("output", () => {
-  document.addEventListener("DOMContentLoaded", function (event) {
+  document.addEventListener("DOMContentLoaded", () => {
     adjaster.updateOutput("test");
     expect(document.getElementById("output")).toMatchInlineSnapshot(
       "<li>test</li>"
