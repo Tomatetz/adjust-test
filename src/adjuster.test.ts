@@ -1,6 +1,5 @@
-import Adjuster from "./adjuster";
+import adjaster from "./adjuster";
 
-let adjaster = new Adjuster();
 test("adjaster initial values", () => {
   expect(adjaster.secondsStack).toStrictEqual([]);
   expect(adjaster.requestInAction).toStrictEqual(false);
@@ -14,9 +13,9 @@ test("http response", async () => {
 });
 test("output", () => {
   document.addEventListener("DOMContentLoaded", () => {
-    adjaster.updateOutput("test");
+    adjaster.updateOutput("test", "test-class");
     expect(document.getElementById("output")).toMatchInlineSnapshot(
-      "<li>test</li>"
+      "<li class='test-class'>test</li>"
     );
   });
 });

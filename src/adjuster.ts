@@ -1,6 +1,6 @@
 import { SecondsStack, HTTPResponse } from "./model";
 
-export default class Adjuster {
+class Adjuster {
   secondsStack: SecondsStack;
   requestInAction: boolean;
   windowIsBlur: boolean;
@@ -19,16 +19,15 @@ export default class Adjuster {
   updateSecondsStack = () => {
     const { fetchData, secondsStack } = this;
     const seconds: number = new Date().getSeconds();
-    if (!~secondsStack.indexOf(seconds)) {
-      secondsStack.push(seconds);
-      fetchData(seconds);
-    } else this.updateOutput(`Repeated seconds alert (${seconds})`);
+    ~secondsStack.indexOf(seconds)
+      ? this.updateOutput(`Repeated seconds alert (${seconds})`, "repeat")
+      : (secondsStack.push(seconds), fetchData(seconds));
   };
   fetchData = async (seconds: number) => {
     if (!this.requestInAction && !this.windowIsBlur) {
       this.requestInAction = true;
       let result = await this.makeRequest(JSON.stringify({ seconds }));
-      this.updateOutput(`id: ${result.id}, seconds: ${seconds}`);
+      this.updateOutput(`id: ${result.id}, seconds: ${seconds}`, "response");
       this.requestInAction = false;
       this.secondsStack.shift();
       if (this.secondsStack.length) this.fetchData(this.secondsStack[0]);
@@ -45,7 +44,12 @@ export default class Adjuster {
       xhr.send(request);
     });
   }
-  updateOutput(value) {
-    document.getElementById("output").innerHTML += `<li>${value}</li>`;
+  updateOutput(value: string, className: string) {
+    document.getElementById(
+      "output"
+    ).innerHTML += `<li class=${className}>${value}</li>`;
   }
 }
+const adjaster = new Adjuster();
+Object.freeze(adjaster);
+export default adjaster;

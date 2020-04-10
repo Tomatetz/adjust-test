@@ -1,6 +1,4 @@
-import Adjuster from "./adjuster";
-
-let adjaster = new Adjuster();
+import adjaster from "./adjuster";
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("clicker").onclick = () => {
