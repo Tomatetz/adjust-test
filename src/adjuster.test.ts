@@ -1,17 +1,24 @@
 import adjaster from "./adjuster";
 
-test("adjaster initial values", () => {
+test("Adjaster initial values", () => {
   expect(adjaster.secondsStack).toStrictEqual([]);
-  expect(adjaster.requestInAction).toStrictEqual(false);
-  expect(adjaster.requestInAction).toStrictEqual(false);
+  expect(adjaster.requestIsPending).toStrictEqual(false);
+  expect(adjaster.windowIsBlur).toStrictEqual(false);
 });
-test("http response", async () => {
+test("Http response", async () => {
   const response = await adjaster.makeRequest(
     JSON.stringify(new Date().getSeconds())
   );
   expect(response).toEqual({ id: expect.any(Number) });
 });
-test("output", () => {
+test("Seconds stack update", () => {
+  adjaster.updateSecondsStack();
+  expect(adjaster.secondsStack.length).toEqual(1);
+  adjaster.updateSecondsStack();
+  expect(adjaster.secondsStack.length).toEqual(1);
+  expect(adjaster.lastAdded.getSeconds()).toEqual(adjaster.secondsStack[0]);
+});
+test("Output update", () => {
   document.addEventListener("DOMContentLoaded", () => {
     adjaster.updateOutput("test", "test-class");
     expect(document.getElementById("output")).toMatchInlineSnapshot(

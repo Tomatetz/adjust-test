@@ -7,6 +7,8 @@ class Adjuster {
   windowIsBlur: boolean;
   constructor() {
     this.secondsStack = new Array();
+    this.requestIsPending = false;
+    this.windowIsBlur = false;
     window.addEventListener("focus", () => {
       this.windowIsBlur = false;
       this.secondsStack.length && this.fetchData(this.secondsStack[0]);
@@ -53,9 +55,10 @@ class Adjuster {
     });
   };
   updateOutput = (value: string, className: string) => {
-    document.getElementById(
-      "output"
-    ).innerHTML += `<li class=${className}>${value}</li>`; // Output log factory
+    if (document.getElementById("output"))
+      document.getElementById(
+        "output"
+      ).innerHTML += `<li class=${className}>${value}</li>`; // Output log factory
   };
 }
 const adjaster = new Adjuster();
